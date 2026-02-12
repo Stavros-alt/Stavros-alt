@@ -2,7 +2,7 @@
 
 > I play games, I use Linux, and when something annoys me, I write code to fix it.
 >
-> 🌐 **[Portfolio / Command Center](stavros-alt.github.io/Stavros-alt/)**
+> 🌐 **[Portfolio / Command Center](https://stavros-alt.github.io/Stavros-alt/)**
 
 ### Current Projects
 - **[Deltarune Song Ranker](https://stavros-alt.github.io/drSongRanker/)**: A global Elo-based ranking engine.
