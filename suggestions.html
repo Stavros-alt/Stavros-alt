@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stavros Command Center - Suggestions</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>STAVROS</h1>
+            <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                <a href="https://github.com/Stavros-alt" target="_blank"
+                    style="color: #666; text-decoration: none; margin-right: 15px;">GITHUB</a>
+                <a href="https://discord.gg/zEPrxfmN" target="_blank"
+                    style="color: #666; text-decoration: none; margin-right: 15px;">DISCORD</a>
+                <a href="index.html" style="color: #666; text-decoration: none; margin-right: 15px;">PROJECTS</a>
+                <a href="suggestions.html" style="color: #666; text-decoration: none;">SUGGESTIONS</a>
+            </p>
+        </header>
+
+        <section class="dark-candy-box">
+            <!-- i hate that i had to duplicate the header for this. -->
+            <h2>Suggestions</h2>
+            <form id="suggestion-form">
+                <div class="form-group">
+                    <label for="project">Project:</label>
+                    <select id="project" name="project" required>
+                        <option value="Ranker">Ranker</option>
+                        <option value="Bot">Boxicle9000</option>
+                        <option value="ModDownloader">Mod Downloader</option>
+                        <option value="Portfolio">Command Center</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="idea">Your Idea:</label>
+                    <textarea id="idea" name="idea" required placeholder="What should I fix next?"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="contact">Contact (Optional):</label>
+                    <input type="text" id="contact" name="contact" placeholder="Discord or Email">
+                </div>
+                <button type="submit" class="pixel-btn">THROW IT IN THE HOLE</button>
+            </form>
+        </section>
+    </div>
+</body>
+
+</html>
