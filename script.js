@@ -1,12 +1,12 @@
-// supabase setup. standard stuff.
+// supabase setup. standard stuff. i hope the key still works.
 const supabaseUrl = 'https://tsqubxgafnzmxejwknbm.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRzcXVieGdhZm56bXhlandrbmJtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwNzA2ODcsImV4cCI6MjA2ODY0NjY4N30.YY78tWRNQsK6OZREh-8w2fAxiLBbBaG4kZfVYROkirY';
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
-// grabbing dom elements.
+// grabbing dom elements. as if that's hard.
 const suggestionForm = document.getElementById('suggestion-form');
 
-// handle suggestions. simple insert.
+// handle suggestions. simple insert for a simple task.
 if (suggestionForm) {
     suggestionForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -24,8 +24,8 @@ if (suggestionForm) {
         }
 
         // repeat filter. goodbye spam.
-        // checking for more than 3 of the same character. i hate regex.
-        if (/(.)\1{3,}/.test(idea)) {
+        // checking for 4+ identical chars OR 3+ repetitions of 2-4 chars (e.g. "676767").
+        if (/(.)\1{3,}|(.{2,4})\1{2,}/.test(idea)) {
             alert("Stop spamming characters. It's not funny.");
             return;
         }
@@ -51,13 +51,13 @@ if (suggestionForm) {
 
             if (error) throw error;
 
-            alert("Suggestion sent.\n\nJoin the Discord to vote on it. (Link in header)");
+            alert("Sent. Go vote on it or something.");
             suggestionForm.reset();
             btn.innerText = originalText;
             btn.disabled = false;
         } catch (err) {
-            console.error('error submitting suggestion:', err);
-            alert('Failed to send.');
+            console.error('shocker, it failed:', err);
+            alert('Failed. Try again if you have the patience.');
             btn.innerText = 'TRY AGAIN';
             btn.disabled = false;
         }
