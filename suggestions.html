@@ -39,11 +39,15 @@
                 </div>
                 <div class="form-group">
                     <label for="idea">Your Idea:</label>
-                    <textarea id="idea" name="idea" required placeholder="What should I fix next?"></textarea>
+                    <textarea id="idea" name="idea" required minlength="15" placeholder="What should I fix next?"></textarea>
                 </div>
                 <div class="form-group">
-                    <label for="contact">Contact (Optional):</label>
-                    <input type="text" id="contact" name="contact" placeholder="Discord or Email">
+                    <label for="contact">Discord Handle (Optional):</label>
+                    <input type="text" id="contact" name="contact" placeholder="@username">
+                </div>
+                <div class="form-group">
+                    <label for="gatekeeper">What game is this site for? (type 'undertale')</label>
+                    <input type="text" id="gatekeeper" name="gatekeeper" required placeholder="hint: it rhymes with blunder-fail">
                 </div>
                 <button type="submit" class="pixel-btn">THROW IT IN THE HOLE</button>
             </form>

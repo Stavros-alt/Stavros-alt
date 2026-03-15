@@ -12,20 +12,38 @@ if (suggestionForm) {
         e.preventDefault();
 
         const project = document.getElementById('project').value;
-        const idea = document.getElementById('idea').value;
-        const contact = document.getElementById('contact').value;
+        const idea = document.getElementById('idea').value.trim();
+        const contact = document.getElementById('contact').value.trim();
+        const gatekeeper = document.getElementById('gatekeeper').value.trim().toLowerCase();
         const btn = e.target.querySelector('button');
 
-        if (!idea) return;
+        // basic friction. trolls are lazy and i'm tired.
+        if (idea.length < 15) {
+            alert("Too short. Try actually explaining your idea.");
+            return;
+        }
+
+        // repeat filter. goodbye spam.
+        // checking for more than 3 of the same character. i hate regex.
+        if (/(.)\1{3,}/.test(idea)) {
+            alert("Stop spamming characters. It's not funny.");
+            return;
+        }
+
+        // gatekeeper. if they can't type 'undertale' they don't get a say.
+        if (gatekeeper !== 'undertale') {
+            alert("Wrong game. Did you even look at the header?");
+            return;
+        }
 
         const originalText = btn.innerText;
         btn.innerText = 'SENDING...';
         btn.disabled = true;
 
         try {
-            // reusing the table from drSongRanker.
+            // reusing the table from drSongRanker. why reinvent the wheel.
             // keeping the schema simple.
-            const content = `[${project}] ${idea} (Contact: ${contact || 'Anon'})`;
+            const content = `[${project}] ${idea} (Discord: ${contact || 'Anon'})`;
 
             const { error } = await supabaseClient
                 .from('feature_suggestions')
