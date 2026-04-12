@@ -10,8 +10,4 @@ i play games, i use linux, and when something annoys me, i write code to fix it.
 - [steam mod downloader](https://github.com/Stavros-alt/steamModDownloader): python scraper.
 
 ### tech
-- javascript
-- node.js
-- python
-- c
-- supabase
+[![Stavros' GitHub stats](https://github-readme-stats.vercel.app/api?username=Stavros-anuraghaz)](https://githanuraghStavros-alt/github-readme-stats)
