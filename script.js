@@ -49,3 +49,48 @@ if (suggestionForm) {
     });
 }
 
+// faq gate. mandatory reading because nobody reads anything ever.
+const faqCheckbox = document.getElementById('faq-agree-checkbox');
+let faqNag = document.getElementById('faq-nag');
+const suggestionSection = document.getElementById('suggestion-section');
+const faqGate = document.getElementById('faq-gate');
+
+if (faqCheckbox && suggestionSection) {
+    // track if they actually scrolled. lazy people don't get to suggest.
+    let hasScrolledFaq = false;
+
+    // scroll check. definately overkill but whatever
+    function checkFaqScroll() {
+        if (!faqGate) return;
+        let faqBottom = faqGate.getBoundingClientRect().bottom;
+        // 100px grace because i'm not a complete monster
+        if (faqBottom <= window.innerHeight + 100) {
+           hasScrolledFaq = true;
+        }
+    }
+
+    window.addEventListener('scroll', checkFaqScroll);
+    checkFaqScroll(); // in case the page is short
+
+
+    faqCheckbox.addEventListener('change', () => {
+        if (faqCheckbox.checked) {
+            if (!hasScrolledFaq) {
+                // they didn't scroll. classic.
+                faqCheckbox.checked = false;
+                if (faqNag) faqNag.style.display = 'block';
+                return;
+            }
+
+            if (faqNag) faqNag.style.display = 'none';
+            suggestionSection.classList.add('faq-revealed');
+            // todo: maybe add a confetti effect here. just kidding. or am i
+            setTimeout(() => {
+                suggestionSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 100);
+        } else {
+            suggestionSection.classList.remove('faq-revealed');
+            suggestionSection.style.display = 'none';
+        }
+    });
+}

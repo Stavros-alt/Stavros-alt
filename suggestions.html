@@ -17,14 +17,95 @@
             <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
                 <a href="https://github.com/Stavros-alt" target="_blank"
                     style="color: #666; text-decoration: none; margin-right: 15px;">GITHUB</a>
-                <a href="https://discord.gg/MeGrt5kvK4" target="_blank"
+                <a href="https://discord.com/invite/nUHxjKjUZz" target="_blank"
                     style="color: #666; text-decoration: none; margin-right: 15px;">DISCORD</a>
                 <a href="index.html" style="color: #666; text-decoration: none; margin-right: 15px;">PROJECTS</a>
                 <a href="suggestions.html" style="color: #666; text-decoration: none;">SUGGESTIONS</a>
             </p>
         </header>
 
-        <section class="dark-candy-box">
+        <!-- faq gate. read it or leave. -->
+        <section class="dark-candy-box" id="faq-gate">
+            <h2>READ THIS FIRST</h2>
+            <p style="color: #888; font-size: 0.85em; margin-bottom: 20px;">
+                before you suggest anything, read through this entire FAQ. if your suggestion is already covered here, i
+                will ignore it. i'm not being mean, i'm being efficient.
+            </p>
+
+            <div class="faq-list">
+                <div class="faq-item">
+                    <div class="faq-q">Q: Add more songs!</div>
+                    <div class="faq-a">A: No. I'm broke and already being bled dry by hosting costs. There is a donation
+                        goal and that's the only way I'll add more songs. Because I'm broke. In case you missed it, I'm
+                        broke.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-q">Q: Add [insert joke feature here]</div>
+                    <div class="faq-a">A: No. I already have more than enough joke features, and I don't want the site
+                        to just become another annoying low-effort shitpost.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-q">Q: Anything about the accuracy bar</div>
+                    <div class="faq-a">A: You can turn it off in the settings. There. Happy now?</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-q">Q: Change the ranking algorithm! It's taking too long!</div>
+                    <div class="faq-a">A: You don't have to finish 100% of the ranker. I specifically chose the ELO
+                        algorithm so you can just do a couple hundred or so comparisons and be done with it. This is
+                        supposed to help you make a sorted list, not just find your favorites. It is not a knockout
+                        style competition, it is an infinite comparison system, and the more you use it, the more
+                        accurate it gets. Just do as many comparisons as you want and get a good enough result.<br><br>
+                        P.S. The top 10-ish of the list (which is what most people are here for anyways) stabilizes way
+                        quicker than the rest of the list. You might have a pretty accurate top 10 within a couple
+                        hundred votes, even if the bar says 20%, because the site is more likely to choose songs in your
+                        top 10. The remaining thousands of comparisons are for the maniacs who care about the difference
+                        between #423 and #424.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-q">Q: Can you make it so you can rank only boss songs / area themes / whatever?
+                    </div>
+                    <div class="faq-a">A: Do it yourself. There's been custom playlists for a while now. Click the +
+                        button next to the filter dropdown.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-q">Q: Is there [feature that already exists]?</div>
+                    <div class="faq-a">A: Please check the settings menu before making a suggestion to make sure that
+                        your feature is actually new and not something that already exists. I'm begging you.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-q">Q: Why is a lyrical version of a song playing?</div>
+                    <div class="faq-a">A: That's the Felfeb update. There's a 1 in 10 chance of playing a fanmade song
+                        instead of the original. This is a feature you can turn off in the settings. Also: I AM NOT
+                        FELFEB. I did not make the lyrical parodies. I merely got permission to use songs from the
+                        all-holy Feb. He's also not in the server.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-q">Q: Add a skip button!</div>
+                    <div class="faq-a">A: There's literally a skip button right between the two choice buttons. It's
+                        been there. Please look at the screen.</div>
+                </div>
+            </div>
+
+            <div class="faq-agree-container">
+                <label class="faq-agree-label">
+                    <input type="checkbox" id="faq-agree-checkbox">
+                    <span>I have actually read the FAQ above and my suggestion is not covered by any of it</span>
+                </label>
+                <p id="faq-nag" style="color: #ff4444; font-size: 0.8em; display: none; margin-top: 10px;">
+                    scroll up and read it. i'm serious.
+                </p>
+            </div>
+        </section>
+
+        <!-- form is hidden until they agree -->
+        <section class="dark-candy-box" id="suggestion-section" style="display: none;">
             <!-- i hate that i had to duplicate the header for this. -->
             <h2>Suggestions</h2>
             <form id="suggestion-form">
@@ -39,11 +120,17 @@
                 </div>
                 <div class="form-group">
                     <label for="idea">Your Idea:</label>
-                    <textarea id="idea" name="idea" required minlength="5" placeholder="What should I fix next?"></textarea>
+                    <textarea id="idea" name="idea" required minlength="15"
+                        placeholder="What should I fix next?"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="contact">Discord Handle (Optional):</label>
                     <input type="text" id="contact" name="contact" placeholder="@username">
+                </div>
+                <div class="form-group">
+                    <label for="gatekeeper">What game is this site for? (type 'undertale')</label>
+                    <input type="text" id="gatekeeper" name="gatekeeper" required
+                        placeholder="hint: it rhymes with blunder-fail">
                 </div>
                 <button type="submit" class="pixel-btn">THROW IT IN THE HOLE</button>
             </form>
