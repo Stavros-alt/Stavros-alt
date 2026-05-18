@@ -94,13 +94,24 @@
             </div>
 
             <div class="faq-agree-container">
-                <label class="faq-agree-label">
+                <label class="faq-agree-label" id="faq-checkbox-label">
                     <input type="checkbox" id="faq-agree-checkbox">
                     <span>I have actually read the FAQ above and my suggestion is not covered by any of it</span>
                 </label>
                 <p id="faq-nag" style="color: #ff4444; font-size: 0.8em; display: none; margin-top: 10px;">
                     scroll up and read it. i'm serious.
                 </p>
+                
+                <!-- quiz. because apparently reading is hard. -->
+                <div id="faq-quiz-container" style="display: none; margin-top: 20px; border: 1px solid #333; padding: 15px; background: #0a0a0a;">
+                    <h3 style="margin-top: 0; font-size: 1.1em; color: var(--accent-color);">FAQ POP QUIZ</h3>
+                    <p style="font-size: 0.85em; color: #888; margin-bottom: 15px;">prove you actually read it. pass this once and you'll never see it again.</p>
+                    
+                    <div id="quiz-questions-target"></div>
+
+                    <button id="submit-quiz-btn" class="pixel-btn" style="width: auto; padding: 8px 16px; font-size: 0.9em;">SUBMIT ANSWERS</button>
+                    <p id="quiz-error" style="color: #ff4444; font-size: 0.8em; display: none; margin-top: 10px;">wrong. try reading next time.</p>
+                </div>
             </div>
         </section>
 
