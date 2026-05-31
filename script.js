@@ -3,6 +3,24 @@ const supabaseUrl = 'https://tsqubxgafnzmxejwknbm.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRzcXVieGdhZm56bXhlandrbmJtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwNzA2ODcsImV4cCI6MjA2ODY0NjY4N30.YY78tWRNQsK6OZREh-8w2fAxiLBbBaG4kZfVYROkirY';
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
+// stat box on the ranker card. same calculation as stats.js line 108.
+const rankerStat = document.getElementById('ranker-stat');
+if (rankerStat) {
+    Promise.all([
+        supabaseClient.from('songs').select('comparisons'),
+        supabaseClient.from('ut_songs').select('comparisons'),
+        supabaseClient.from('uty_songs').select('comparisons'),
+        supabaseClient.from('tsus_songs').select('comparisons'),
+    ]).then(results => {
+        if (results.some(r => r.error)) {
+            rankerStat.style.display = 'none';
+            return;
+        }
+        const total = Math.floor(results.flatMap(r => r.data).reduce((sum, s) => sum + (s.comparisons || 0), 0) / 2);
+        rankerStat.textContent = `${total.toLocaleString()} comparisons made`;
+    });
+}
+
 // grabbing dom elements. as if that's hard.
 const suggestionForm = document.getElementById('suggestion-form');
 
