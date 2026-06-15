@@ -53,13 +53,20 @@ class SimpleNaiveBayes {
     // hard rules first. naive bayes is a fallback, not the first line.
     const normalized = this.normalizeText(text);
     
-    // collapse spaces/symbols so "s e x" doesn't slip through
-    const collapsed = normalized.replace(/[^a-z0-9]/g, '');
-    const hasNsfwCollapsed = collapsed.includes('sex') || collapsed.includes('undertail') || collapsed.includes('porn') || collapsed.includes('makeout');
+    // spacing collapses make "does exist so" contain "sex". ugh. i have to use regex instead.
+    const hasNsfw = normalized.includes('undertail') ||
+                    normalized.includes('porn') ||
+                    normalized.includes('makeout') ||
+                    normalized.includes('make out') ||
+                    normalized.includes('sex') ||
+                    /\bs\s*[\W_]*\s*[e3*]\s*[\W_]*\s*x+/i.test(normalized) ||
+                    /\bu\s*n\s*d\s*e\s*r\s*t\s*a\s*i\s*l\b/i.test(normalized) ||
+                    /\bp\s*[\W_]*\s*[o0*]\s*[\W_]*\s*r\s*[\W_]*\s*n/i.test(normalized) ||
+                    /\bm\s*a\s*k\s*e\s*[\W_]*\s*o\s*u\s*t/i.test(normalized);
     const hasSexBypass = /\bs\s*[*_.\-]?\s*xs?\b/i.test(normalized);
     const hasAnalBypass = /\ba\s*[*_.\-]?\s*n\s*[*_.\-]?\s*a\s*[*_.\-]?\s*l\b/i.test(normalized);
 
-    if (hasNsfwCollapsed || hasSexBypass || hasAnalBypass) {
+    if (hasNsfw || hasSexBypass || hasAnalBypass) {
       return 'spam';
     }
 
@@ -93,6 +100,12 @@ class SimpleNaiveBayes {
     // "hi" is not a feature request
     const cleanWords = this.tokenize(text);
     if (cleanWords.length < 2 && !normalized.includes('fix') && !normalized.includes('add')) {
+      return 'spam';
+    }
+
+    // obvious vulgarity / shitposting
+    const hasVulgarSpam = /\b(shit|fuck|ass|damn|bitch|crap|dick|piss|cock|penis|vagina|tit[s]?|nigger|fag|retard)\b/i.test(normalized);
+    if (hasVulgarSpam && !normalized.includes('add') && !normalized.includes('fix') && !normalized.includes('feature')) {
       return 'spam';
     }
 
