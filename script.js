@@ -1,4 +1,4 @@
-// supabase setup. standard stuff. i hope the key still works.
+// supabase setup
 const supabaseUrl = 'https://tsqubxgafnzmxejwknbm.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRzcXVieGdhZm56bXhlandrbmJtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwNzA2ODcsImV4cCI6MjA2ODY0NjY4N30.YY78tWRNQsK6OZREh-8w2fAxiLBbBaG4kZfVYROkirY';
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
@@ -21,10 +21,10 @@ if (rankerStat) {
     });
 }
 
-// grabbing dom elements. as if that's hard.
+// dom elements
 const suggestionForm = document.getElementById('suggestion-form');
 
-// handle suggestions. simple insert for a simple task.
+// handle suggestions
 if (suggestionForm) {
     suggestionForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -35,7 +35,7 @@ if (suggestionForm) {
         const btn = e.target.querySelector('button');
 
         if (idea.length < 5) {
-            alert("Too short. Try actually explaining your idea.");
+            alert("Please write a bit more detail so I can understand the idea.");
             return;
         }
 
@@ -44,8 +44,7 @@ if (suggestionForm) {
         btn.disabled = true;
 
         try {
-            // reusing the table from drSongRanker. why reinvent the wheel.
-            // keeping the schema simple.
+            // reusing the table from drSongRanker
             const content = `[${project}] ${idea} (Discord: ${contact || 'Anon'})`;
 
             const { error } = await supabaseClient
@@ -54,20 +53,20 @@ if (suggestionForm) {
 
             if (error) throw error;
 
-            alert("Sent. Go vote on it or something.");
+            alert("Sent. Thanks for the suggestion!");
             suggestionForm.reset();
             btn.innerText = originalText;
             btn.disabled = false;
         } catch (err) {
-            console.error('shocker, it failed:', err);
-            alert('Failed. Try again if you have the patience.');
+            console.error('suggestion submit failed:', err);
+            alert('Failed to send. Please try again in a moment.');
             btn.innerText = 'TRY AGAIN';
             btn.disabled = false;
         }
     });
 }
 
-// i shouldn't have to do this but nobody reads anything.
+// quiz bank for faq check
 const quizBank = [
     {
         q: "Will I add more songs just because you asked nicely?",
@@ -171,19 +170,19 @@ const quizBank = [
         q: "Who pays the hosting costs?",
         options: [
             { text: "toby fox", correct: false },
-            { text: "i do, and i'm broke", correct: true }
+            { text: "hosting is paid by me, so costs matter", correct: true }
         ]
     }
 ];
 
-let currentQuizAnswers = []; // state tracking because the dom is terrible
+let currentQuizAnswers = []; // tracks correct answers for current quiz
 
 function generateQuiz() {
     const target = document.getElementById('quiz-questions-target');
     if (!target) return;
     target.innerHTML = '';
     
-    // pick 3 at random. i'm not making this easy.
+    // pick 3 at random
     const shuffled = [...quizBank].sort(() => 0.5 - Math.random());
     const selected = shuffled.slice(0, 3);
     
@@ -192,7 +191,7 @@ function generateQuiz() {
     selected.forEach((q, index) => {
         const qId = `q${index}`;
         
-        // shuffle options so they can't just memorize the layout
+        // shuffle options
         const optionsShuffled = [...q.options].sort(() => 0.5 - Math.random());
         
         const correctIndex = optionsShuffled.findIndex(o => o.correct);
@@ -216,7 +215,7 @@ function generateQuiz() {
     });
 }
 
-// faq gate. mandatory reading because nobody reads anything ever.
+// faq gate
 const faqCheckbox = document.getElementById('faq-agree-checkbox');
 let faqNag = document.getElementById('faq-nag');
 const suggestionSection = document.getElementById('suggestion-section');
@@ -228,14 +227,14 @@ const quizError = document.getElementById('quiz-error');
 const faqCheckboxLabel = document.getElementById('faq-checkbox-label');
 
 if (faqCheckbox && suggestionSection) {
-    // track if they actually scrolled. lazy people don't get to suggest.
+    // track if they actually scrolled
     let hasScrolledFaq = false;
 
-    // scroll check. definately overkill but whatever
+    // scroll check
     function checkFaqScroll() {
         if (!faqGate) return;
         let faqBottom = faqGate.getBoundingClientRect().bottom;
-        // 100px grace because i'm not a complete monster
+        // 100px grace so short pages still count as seen
         if (faqBottom <= window.innerHeight + 100) {
            hasScrolledFaq = true;
         }
@@ -250,7 +249,6 @@ if (faqCheckbox && suggestionSection) {
     faqCheckbox.addEventListener('change', () => {
         if (faqCheckbox.checked) {
             if (!hasScrolledFaq && !hasPassedQuiz) {
-                // they didn't scroll. classic.
                 faqCheckbox.checked = false;
                 if (faqNag) faqNag.style.display = 'block';
                 return;
@@ -261,7 +259,6 @@ if (faqCheckbox && suggestionSection) {
             if (hasPassedQuiz) {
                 revealForm();
             } else {
-                // time for the pop quiz. i don't trust them.
                 faqCheckboxLabel.style.display = 'none';
                 faqQuizContainer.style.display = 'block';
                 if (quizError) quizError.style.display = 'none';
@@ -286,16 +283,13 @@ if (faqCheckbox && suggestionSection) {
                 }
             }
 
-            // check if they're illiterate
             if (allCorrect) {
                 localStorage.setItem('stavrosFaqQuizPassed', 'true');
                 faqQuizContainer.style.display = 'none';
                 faqCheckboxLabel.style.display = 'flex';
                 revealForm();
             } else {
-                // of course they failed.
                 if (quizError) quizError.style.display = 'block';
-                // reroll the questions. try again, idiot.
                 generateQuiz();
             }
         });
@@ -303,7 +297,6 @@ if (faqCheckbox && suggestionSection) {
 
     function revealForm() {
         suggestionSection.classList.add('faq-revealed');
-        // todo: maybe add a confetti effect here. just kidding. or am i
         setTimeout(() => {
             suggestionSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 100);

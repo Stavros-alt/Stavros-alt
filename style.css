@@ -192,7 +192,7 @@ textarea:focus {
     box-shadow: 0 0 10px var(--accent-color);
 }
 
-/* faq stuff. i can't belive i have to do this */
+/* faq */
 .faq-list {
     display: flex;
     flex-direction: column;
@@ -252,7 +252,7 @@ textarea:focus {
     user-select: none;
 }
 
-/* the big reveal. dramatic. */
+/* reveal animation */
 #suggestion-section.faq-revealed {
     display: block !important;
     animation: faq-slide-in 0.3s ease-out;
