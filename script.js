@@ -1,9 +1,9 @@
-// supabase setup
+// supabase setup. the anon key ships in public code by design, the service role key stays server side
 const supabaseUrl = 'https://tsqubxgafnzmxejwknbm.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRzcXVieGdhZm56bXhlandrbmJtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTMwNzA2ODcsImV4cCI6MjA2ODY0NjY4N30.YY78tWRNQsK6OZREh-8w2fAxiLBbBaG4kZfVYROkirY';
 const supabaseClient = supabase.createClient(supabaseUrl, supabaseKey);
 
-// stat box on the ranker card. same calculation as stats.js line 108.
+// live comparison count on the ranker card. each match bumps comparisons on both songs, so the sum gets halved
 const rankerStat = document.getElementById('ranker-stat');
 if (rankerStat) {
     Promise.all([
@@ -227,7 +227,7 @@ const quizError = document.getElementById('quiz-error');
 const faqCheckboxLabel = document.getElementById('faq-checkbox-label');
 
 if (faqCheckbox && suggestionSection) {
-    // track if they actually scrolled
+    // faq scroll flag
     let hasScrolledFaq = false;
 
     // scroll check
@@ -243,7 +243,7 @@ if (faqCheckbox && suggestionSection) {
     window.addEventListener('scroll', checkFaqScroll);
     checkFaqScroll(); // in case the page is short
 
-    // if they already passed, skip the quiz
+    // passing once is remembered, no repeat quiz
     const hasPassedQuiz = localStorage.getItem('stavrosFaqQuizPassed') === 'true';
 
     faqCheckbox.addEventListener('change', () => {

@@ -115,7 +115,7 @@ class SimpleNaiveBayes {
     // hard rules first. naive bayes is a fallback, not the first line.
     const normalized = this.normalizeText(text);
 
-    // spacing collapse makes does exist so contain sex so use regex instead
+    // spaced out spellings defeat plain substring checks, hence the regexes
     const hasNsfw =
       normalized.includes("undertail") ||
       normalized.includes("porn") ||
@@ -134,8 +134,8 @@ class SimpleNaiveBayes {
       return "spam";
     }
 
-    // kiss/make out only counts if they're asking for it as a feature.
-    // "the kiss cutscene" should not get caught here.
+    // kiss/make out only counts when requested as a feature.
+    // the kiss cutscene should not get caught here.
     const hasKissRequest =
       /\b(add|make|create|implement|put|give)\b.{0,40}\b(kiss|make out)\b/i.test(
         text,
@@ -207,7 +207,7 @@ class SimpleNaiveBayes {
       return "spam";
     }
 
-    // fandom in-jokes
+    // fandom memes
     if (
       normalized.includes("imposter") ||
       normalized.includes("impostor") ||
@@ -234,6 +234,23 @@ class SimpleNaiveBayes {
       normalized.includes("bring back the lore")
     ) {
       return "spam";
+    }
+
+    // another game's version is a real request. bayes flips these to spam when
+    // nearly every token is unknown and the leftovers are polite words like
+    // sorry, trained as spam by the wrong chat jokes.
+    const requestsOtherGame =
+      /\bversion\s+(of\s+this|for)\b/i.test(text) ||
+      /\b(do|can|could|would|will|is\s+there)\b[^.?!]{0,60}\bversion\b/i.test(
+        text,
+      ) ||
+      /\b(add|make|create|build)\b[^.?!]{0,50}\b(ranker|ranking|version)\b/i.test(
+        text,
+      ) ||
+      /\branker\s+for\b/i.test(text) ||
+      /\b(ost|soundtrack|songs?)\s+(ranker|ranking|version)\b/i.test(text);
+    if (requestsOtherGame) {
+      return "suggestion";
     }
 
     // fall through to bayes
@@ -348,6 +365,26 @@ const trainingSet: Array<{ text: string; label: "suggestion" | "spam" }> = [
     text: "when will the site be updated with deltarune chapter 3 and 4 music",
     label: "suggestion",
   },
+  {
+    text: "do you have a version of this for other games",
+    label: "suggestion",
+  },
+  {
+    text: "could you make an omori version of the ranker",
+    label: "suggestion",
+  },
+  {
+    text: "sorry if this was already suggested but can you add a search bar",
+    label: "suggestion",
+  },
+  {
+    text: "add omori songs to the ranker",
+    label: "suggestion",
+  },
+  {
+    text: "this might be a little far out but is there a version for other games",
+    label: "suggestion",
+  },
 
   // spam
   { text: "Frisk was the imposter… 1 imposter remains", label: "spam" },
@@ -405,11 +442,11 @@ Deno.serve(async (req: Request) => {
     // TEST prefix skips the real discord post
     const isDevTest = content.startsWith("TEST");
 
-    // hardcoded so i don't have to hit the api to look them up every time
+    // hardcoded channel ids to skip an api lookup per request
     const targetChannelId = "1456448950310801573"; // #voting
     const bsChannelId = "1456759933315059822"; // #bs
 
-    // strip the [Project] prefix and discord handle before classifying
+    // strip the [Ranker] prefix and discord handle before classifying
     let isSpam = false;
     let classificationText = content;
     classificationText = classificationText.replace(/^\s*\[Ranker\]\s*/i, "");
@@ -501,7 +538,7 @@ Deno.serve(async (req: Request) => {
         throw new Error(`Discord API failed: ${JSON.stringify(discordMsg)}`);
     }
 
-    // write back the message id and final channel so we can track it
+    // record message id and final channel, needed to spot duplicate posts
     const { error: updateError } = await supabase
       .from("feature_suggestions")
       .update({
