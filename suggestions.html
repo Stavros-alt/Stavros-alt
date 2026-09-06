@@ -1,137 +1,332 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Stavros Command Center - Suggestions</title>
+        <link rel="stylesheet" href="style.css" />
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+        <script src="script.js" defer></script>
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stavros Command Center - Suggestions</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="script.js" defer></script>
-</head>
-
-<body>
-    <div class="container">
-        <header>
-            <h1>STAVROS</h1>
-            <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
-                <a href="https://github.com/Stavros-alt" target="_blank"
-                    style="color: #666; text-decoration: none; margin-right: 15px;">GITHUB</a>
-                <a href="https://discord.com/invite/nUHxjKjUZz" target="_blank"
-                    style="color: #666; text-decoration: none; margin-right: 15px;">DISCORD</a>
-                <a href="index.html" style="color: #666; text-decoration: none; margin-right: 15px;">PROJECTS</a>
-                <a href="suggestions.html" style="color: #666; text-decoration: none;">SUGGESTIONS</a>
-            </p>
-        </header>
-
-        <!-- faq. covers the most common suggestions. -->
-        <section class="dark-candy-box" id="faq-gate">
-            <h2>PLEASE READ FIRST</h2>
-            <p style="color: #888; font-size: 0.85em; margin-bottom: 20px;">
-                this FAQ covers the most common suggestions. please check it before submitting so duplicate requests don't pile up. it also explains where to find features that already exist.
-            </p>
-
-            <div class="faq-list">
-                <div class="faq-item">
-                    <div class="faq-q">Q: Can you add more songs?</div>
-                    <div class="faq-a">A: More songs increase hosting costs. There is a donation goal that helps cover them, and that's how I decide when new songs can be added. Thanks for understanding.</div>
-                </div>
-
-                <div class="faq-item">
-                    <div class="faq-q">Q: Can you add a joke / meme feature?</div>
-                    <div class="faq-a">A: The site already has a few joke features and I'm keeping the focus on ranking for now to avoid clutter.</div>
-                </div>
-
-                <div class="faq-item">
-                    <div class="faq-q">Q: Can I hide the accuracy bar?</div>
-                    <div class="faq-a">A: Yes. You can hide it in Settings.</div>
-                </div>
-
-                <div class="faq-item">
-                    <div class="faq-q">Q: Can you change the ranking algorithm? It takes a long time to reach 100%.</div>
-                    <div class="faq-a">A: You don't need to reach 100% to get a good result. The ranker uses an ELO system, so even a couple hundred comparisons will give you a useful sorted list. It's not a knockout tournament, it's an ongoing comparison system where more votes gradually improve accuracy. You can stop whenever you are happy with the result.<br><br>
-                        Note: the top of your list (roughly the top 10) tends to stabilize much faster than the full list. You may have an accurate top 10 within a few hundred votes even if the bar shows 20%, since the site prioritizes songs near your top. The remaining comparisons mainly refine lower positions.</div>
-                </div>
-
-                <div class="faq-item">
-                    <div class="faq-q">Q: Can I rank only boss themes, area themes, or a specific subset of songs?</div>
-                    <div class="faq-a">A: Yes. In Deltarune mode, use "Mix Chapters..." in the filter dropdown to combine specific chapters. In Combined mode, use "Mix Franchises..." to choose which games to include and "Mix DR Chapters..." for Deltarune chapters. For fully custom sets (like only boss themes), click the "+ Custom List" button next to the filter to create a custom playlist where you can pick individual songs.</div>
-                </div>
-
-                <div class="faq-item">
-                    <div class="faq-q">Q: Can I combine and rank Undertale and Deltarune chapters together?</div>
-                    <div class="faq-a">A: Yes, but Combined mode is hidden at first. Click the "VS" between the two songs three times quickly to unlock the "Combined" tab at the top. Then use "Mix Franchises..." in the filter to choose which games to include (Deltarune, Undertale, UT Yellow, TS!Underswap) and "Mix DR Chapters..." to pick specific Deltarune chapters. You can also create a custom playlist with "+ Custom List" for any exact combination across games.<br><br>Please note: Combined mode is very buggy and very unfinished, so use it at your own risk.</div>
-                </div>
-
-                <div class="faq-item">
-                    <div class="faq-q">Q: Does this feature already exist?</div>
-                    <div class="faq-a">A: Please check Settings and the filter dropdown first. Many requested features are already available there.</div>
-                </div>
-
-                <div class="faq-item">
-                    <div class="faq-q">Q: Why is a lyrical version of a song playing?</div>
-                    <div class="faq-a">A: That's the Felfeb collaboration. There is about a 10% chance of playing a fanmade lyrical version instead of the original. You can turn this off in Settings. The lyrical versions were made by Felfeb (with permission) and he is not in the server.</div>
-                </div>
-
-                <div class="faq-item">
-                    <div class="faq-q">Q: Can you add a skip button?</div>
-                    <div class="faq-a">A: The skip button is already there, between the two choice buttons in the center of the arena.</div>
-                </div>
-            </div>
-
-            <div class="faq-agree-container">
-                <label class="faq-agree-label" id="faq-checkbox-label">
-                    <input type="checkbox" id="faq-agree-checkbox">
-                    <span>I have read the FAQ and my suggestion is not covered above</span>
-                </label>
-                <p id="faq-nag" style="color: #ff4444; font-size: 0.8em; display: none; margin-top: 10px;">
-                    Please scroll up and read the FAQ before continuing.
+    <body>
+        <div class="container">
+            <header>
+                <h1>STAVROS</h1>
+                <p style="margin-top: 10px; font-size: 0.9em; color: #666">
+                    <a
+                        href="https://github.com/Stavros-alt"
+                        target="_blank"
+                        style="
+                            color: #666;
+                            text-decoration: none;
+                            margin-right: 15px;
+                        "
+                        >GITHUB</a
+                    >
+                    <a
+                        href="https://discord.com/invite/nUHxjKjUZz"
+                        target="_blank"
+                        style="
+                            color: #666;
+                            text-decoration: none;
+                            margin-right: 15px;
+                        "
+                        >DISCORD</a
+                    >
+                    <a
+                        href="index.html"
+                        style="
+                            color: #666;
+                            text-decoration: none;
+                            margin-right: 15px;
+                        "
+                        >PROJECTS</a
+                    >
+                    <a
+                        href="suggestions.html"
+                        style="color: #666; text-decoration: none"
+                        >SUGGESTIONS</a
+                    >
                 </p>
-                
-                <!-- quick check to confirm the FAQ was reviewed -->
-                <div id="faq-quiz-container" style="display: none; margin-top: 20px; border: 1px solid #333; padding: 15px; background: #0a0a0a;">
-                    <h3 style="margin-top: 0; font-size: 1.1em; color: var(--accent-color);">QUICK CHECK</h3>
-                    <p style="font-size: 0.85em; color: #888; margin-bottom: 15px;">Just a quick check that you had a chance to review the FAQ. Pass once and you won't see it again.</p>
-                    
-                    <div id="quiz-questions-target"></div>
+            </header>
 
-                    <button id="submit-quiz-btn" class="pixel-btn" style="width: auto; padding: 8px 16px; font-size: 0.9em;">SUBMIT ANSWERS</button>
-                    <p id="quiz-error" style="color: #ff4444; font-size: 0.8em; display: none; margin-top: 10px;">Not quite. Please review the FAQ and try again.</p>
-                </div>
-            </div>
-        </section>
+            <!-- faq. covers the most common suggestions. -->
+            <section class="dark-candy-box" id="faq-gate">
+                <h2>PLEASE READ FIRST</h2>
+                <p style="color: #888; font-size: 0.85em; margin-bottom: 20px">
+                    this FAQ covers the most common suggestions. please check it
+                    before submitting so duplicate requests don't pile up. it
+                    also explains where to find features that already exist.
+                </p>
 
-        <!-- suggestion form (shown after FAQ confirmation) -->
-        <section class="dark-candy-box" id="suggestion-section" style="display: none;">
-            <h2>Suggestions</h2>
-            <form id="suggestion-form">
-                <div class="form-group">
-                    <label for="project">Project:</label>
-                    <select id="project" name="project" required>
-                        <option value="Ranker">Ranker</option>
-                        <option value="Bot">Boxicle9000</option>
-                        <option value="ModDownloader">Mod Downloader</option>
-                        <option value="Portfolio">Command Center</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="idea">Your Idea:</label>
-                    <textarea id="idea" name="idea" required minlength="15"
-                        placeholder="What should I fix next?"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="contact">Discord Handle (Optional):</label>
-                    <input type="text" id="contact" name="contact" placeholder="@username">
-                </div>
-                <div class="form-group">
-                    <label for="gatekeeper">What game is this site for? (type 'undertale')</label>
-                    <input type="text" id="gatekeeper" name="gatekeeper" required
-                        placeholder="hint: it rhymes with blunder-fail">
-                </div>
-                <button type="submit" class="pixel-btn">THROW IT IN THE HOLE</button>
-            </form>
-        </section>
-    </div>
-</body>
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <div class="faq-q">Q: Can you add more songs?</div>
+                        <div class="faq-a">
+                            A: More songs increase hosting costs. There is a
+                            donation goal that helps cover them, and that's how
+                            I decide when new songs can be added. If you want to
+                            rank your own songs, there is a custom song ranker
+                            you can use:
+                            <a
+                                href="https://github.com/Stavros-alt/songRanker-local"
+                                target="_blank"
+                                >songRanker-local</a
+                            >. Drop in any folder of audio and rank it locally.
+                            Note: it is very work in progress and very buggy,
+                            and there is no global ranking, everything stays in
+                            your browser. If you run into any bugs, please
+                            report them through this website. Thanks for
+                            understanding.
+                        </div>
+                    </div>
 
+                    <div class="faq-item">
+                        <div class="faq-q">
+                            Q: Can you add a joke / meme feature?
+                        </div>
+                        <div class="faq-a">
+                            A: The site already has a few joke features and I'm
+                            keeping the focus on ranking for now to avoid
+                            clutter.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-q">Q: Can I hide the accuracy bar?</div>
+                        <div class="faq-a">
+                            A: Yes. You can hide it in Settings.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-q">
+                            Q: Can you change the ranking algorithm? It takes a
+                            long time to reach 100%.
+                        </div>
+                        <div class="faq-a">
+                            A: You don't need to reach 100% to get a good
+                            result. The ranker uses an ELO system, so even a
+                            couple hundred comparisons will give you a useful
+                            sorted list. It's not a knockout tournament, it's an
+                            ongoing comparison system where more votes gradually
+                            improve accuracy. You can stop whenever you are
+                            happy with the result.<br /><br />
+                            Note: the top of your list (roughly the top 10)
+                            tends to stabilize much faster than the full list.
+                            You may have an accurate top 10 within a few hundred
+                            votes even if the bar shows 20%, since the site
+                            prioritizes songs near your top. The remaining
+                            comparisons mainly refine lower positions.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-q">
+                            Q: Can I rank only boss themes, area themes, or a
+                            specific subset of songs?
+                        </div>
+                        <div class="faq-a">
+                            A: Yes. In Deltarune mode, use "Mix Chapters..." in
+                            the filter dropdown to combine specific chapters. In
+                            Combined mode, use "Mix Franchises..." to choose
+                            which games to include and "Mix DR Chapters..." for
+                            Deltarune chapters. For fully custom sets (like only
+                            boss themes), click the "+ Custom List" button next
+                            to the filter to create a custom playlist where you
+                            can pick individual songs.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-q">
+                            Q: Can I combine and rank Undertale and Deltarune
+                            chapters together?
+                        </div>
+                        <div class="faq-a">
+                            A: Yes, but Combined mode is hidden at first. Click
+                            the "VS" between the two songs three times quickly
+                            to unlock the "Combined" tab at the top. Then use
+                            "Mix Franchises..." in the filter to choose which
+                            games to include (Deltarune, Undertale, UT Yellow,
+                            TS!Underswap) and "Mix DR Chapters..." to pick
+                            specific Deltarune chapters. You can also create a
+                            custom playlist with "+ Custom List" for any exact
+                            combination across games.<br /><br />Please note:
+                            Combined mode is very buggy and very unfinished, so
+                            use it at your own risk.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-q">
+                            Q: Does this feature already exist?
+                        </div>
+                        <div class="faq-a">
+                            A: Please check Settings and the filter dropdown
+                            first. Many requested features are already available
+                            there.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-q">
+                            Q: Why is a lyrical version of a song playing?
+                        </div>
+                        <div class="faq-a">
+                            A: That's the Felfeb collaboration. There is about a
+                            10% chance of playing a fanmade lyrical version
+                            instead of the original. You can turn this off in
+                            Settings. The lyrical versions were made by Felfeb
+                            (with permission) and he is not in the server.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-q">Q: Can you add a skip button?</div>
+                        <div class="faq-a">
+                            A: The skip button is already there, between the two
+                            choice buttons in the center of the arena.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-agree-container">
+                    <label class="faq-agree-label" id="faq-checkbox-label">
+                        <input type="checkbox" id="faq-agree-checkbox" />
+                        <span
+                            >I have read the FAQ and my suggestion is not
+                            covered above</span
+                        >
+                    </label>
+                    <p
+                        id="faq-nag"
+                        style="
+                            color: #ff4444;
+                            font-size: 0.8em;
+                            display: none;
+                            margin-top: 10px;
+                        "
+                    >
+                        Please scroll up and read the FAQ before continuing.
+                    </p>
+
+                    <!-- quick check to confirm the FAQ was reviewed -->
+                    <div
+                        id="faq-quiz-container"
+                        style="
+                            display: none;
+                            margin-top: 20px;
+                            border: 1px solid #333;
+                            padding: 15px;
+                            background: #0a0a0a;
+                        "
+                    >
+                        <h3
+                            style="
+                                margin-top: 0;
+                                font-size: 1.1em;
+                                color: var(--accent-color);
+                            "
+                        >
+                            QUICK CHECK
+                        </h3>
+                        <p
+                            style="
+                                font-size: 0.85em;
+                                color: #888;
+                                margin-bottom: 15px;
+                            "
+                        >
+                            Just a quick check that you had a chance to review
+                            the FAQ. Pass once and you won't see it again.
+                        </p>
+
+                        <div id="quiz-questions-target"></div>
+
+                        <button
+                            id="submit-quiz-btn"
+                            class="pixel-btn"
+                            style="
+                                width: auto;
+                                padding: 8px 16px;
+                                font-size: 0.9em;
+                            "
+                        >
+                            SUBMIT ANSWERS
+                        </button>
+                        <p
+                            id="quiz-error"
+                            style="
+                                color: #ff4444;
+                                font-size: 0.8em;
+                                display: none;
+                                margin-top: 10px;
+                            "
+                        >
+                            Not quite. Please review the FAQ and try again.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- suggestion form (shown after FAQ confirmation) -->
+            <section
+                class="dark-candy-box"
+                id="suggestion-section"
+                style="display: none"
+            >
+                <h2>Suggestions</h2>
+                <form id="suggestion-form">
+                    <div class="form-group">
+                        <label for="project">Project:</label>
+                        <select id="project" name="project" required>
+                            <option value="Ranker">Ranker</option>
+                            <option value="Bot">Boxicle9000</option>
+                            <option value="ModDownloader">
+                                Mod Downloader
+                            </option>
+                            <option value="Portfolio">Command Center</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="idea">Your Idea:</label>
+                        <textarea
+                            id="idea"
+                            name="idea"
+                            required
+                            minlength="15"
+                            placeholder="What should I fix next?"
+                        ></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="contact">Discord Handle (Optional):</label>
+                        <input
+                            type="text"
+                            id="contact"
+                            name="contact"
+                            placeholder="@username"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="gatekeeper"
+                            >What game is this site for? (type
+                            'undertale')</label
+                        >
+                        <input
+                            type="text"
+                            id="gatekeeper"
+                            name="gatekeeper"
+                            required
+                            placeholder="hint: it rhymes with blunder-fail"
+                        />
+                    </div>
+                    <button type="submit" class="pixel-btn">
+                        THROW IT IN THE HOLE
+                    </button>
+                </form>
+            </section>
+        </div>
+    </body>
 </html>

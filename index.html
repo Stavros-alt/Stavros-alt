@@ -1,62 +1,112 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Stavros Command Center</title>
+        <link rel="stylesheet" href="style.css" />
+        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+        <script src="script.js" defer></script>
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stavros Command Center</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="script.js" defer></script>
-</head>
+    <body>
+        <div class="container">
+            <header>
+                <h1>STAVROS</h1>
+                <p style="margin-top: 10px; font-size: 0.9em; color: #666">
+                    <a
+                        href="https://github.com/Stavros-alt"
+                        target="_blank"
+                        style="
+                            color: #666;
+                            text-decoration: none;
+                            margin-right: 15px;
+                        "
+                        >GITHUB</a
+                    >
+                    <a
+                        href="https://discord.gg/MeGrt5kvK4"
+                        target="_blank"
+                        style="
+                            color: #666;
+                            text-decoration: none;
+                            margin-right: 15px;
+                        "
+                        >DISCORD</a
+                    >
+                    <a
+                        href="index.html"
+                        style="
+                            color: #666;
+                            text-decoration: none;
+                            margin-right: 15px;
+                        "
+                        >PROJECTS</a
+                    >
+                    <a
+                        href="suggestions.html"
+                        style="color: #666; text-decoration: none"
+                        >SUGGESTIONS</a
+                    >
+                </p>
+            </header>
 
-<body>
-    <div class="container">
-        <header>
-            <h1>STAVROS</h1>
-            <p style="margin-top: 10px; font-size: 0.9em; color: #666;">
-                <a href="https://github.com/Stavros-alt" target="_blank"
-                    style="color: #666; text-decoration: none; margin-right: 15px;">GITHUB</a>
-                <a href="https://discord.gg/MeGrt5kvK4" target="_blank"
-                    style="color: #666; text-decoration: none; margin-right: 15px;">DISCORD</a>
-                <a href="index.html" style="color: #666; text-decoration: none; margin-right: 15px;">PROJECTS</a>
-                <a href="suggestions.html" style="color: #666; text-decoration: none;">SUGGESTIONS</a>
-            </p>
-        </header>
+            <main class="save-menu">
+                <div class="save-slot" id="slot-ranker">
+                    <div class="slot-header">
+                        <h2>Deltarune Song Ranker</h2>
+                    </div>
+                    <div class="slot-content">
+                        <p>
+                            Rate and rank every Deltarune song head-to-head.
+                            Your picks get compared against everyone else's on a
+                            global leaderboard.
+                        </p>
+                        <div class="stat-box" id="ranker-stat">loading...</div>
+                    </div>
+                    <a
+                        href="https://stavros-alt.github.io/drSongRanker/"
+                        class="slot-link"
+                        >OPEN</a
+                    >
+                </div>
 
-        <main class="save-menu">
-            <div class="save-slot" id="slot-ranker">
-                <div class="slot-header">
-                    <h2>Deltarune Song Ranker</h2>
+                <div class="save-slot" id="slot-bot">
+                    <div class="slot-header">
+                        <h2>undertale-box-bot</h2>
+                    </div>
+                    <div class="slot-content">
+                        <p>
+                            Discord bot that generates Undertale/Deltarune-style
+                            text boxes for any character or sprite in the
+                            series.
+                        </p>
+                    </div>
+                    <a
+                        href="https://github.com/Stavros-alt/undertale-box-bot"
+                        class="slot-link"
+                        >OPEN</a
+                    >
                 </div>
-                <div class="slot-content">
-                    <p>Rate and rank every Deltarune song head-to-head. Your picks get compared against everyone else's on a global leaderboard.</p>
-                    <div class="stat-box" id="ranker-stat">loading...</div>
-                </div>
-                <a href="https://stavros-alt.github.io/drSongRanker/" class="slot-link">OPEN</a>
-            </div>
 
-            <div class="save-slot" id="slot-bot">
-                <div class="slot-header">
-                    <h2>undertale-box-bot</h2>
+                <div class="save-slot" id="slot-mods">
+                    <div class="slot-header">
+                        <h2>Steam Mod Downloader</h2>
+                    </div>
+                    <div class="slot-content">
+                        <p>
+                            Downloads Steam Workshop mods without SteamCMD.
+                            Scrapes smods.ru via Selenium. Supports batch lists
+                            and headless mode.
+                        </p>
+                    </div>
+                    <a
+                        href="https://github.com/Stavros-alt/steamModDownloader"
+                        class="slot-link"
+                        >OPEN</a
+                    >
                 </div>
-                <div class="slot-content">
-                    <p>Discord bot that generates Undertale/Deltarune-style text boxes for any character or sprite in the series.</p>
-                </div>
-                <a href="https://github.com/Stavros-alt/undertale-box-bot" class="slot-link">OPEN</a>
-            </div>
-
-            <div class="save-slot" id="slot-mods">
-                <div class="slot-header">
-                    <h2>Steam Mod Downloader</h2>
-                </div>
-                <div class="slot-content">
-                    <p>Downloads Steam Workshop mods without SteamCMD. Scrapes smods.ru via Selenium. Supports batch lists and headless mode.</p>
-                </div>
-                <a href="https://github.com/Stavros-alt/steamModDownloader" class="slot-link">OPEN</a>
-            </div>
-        </main>
-    </div>
-</body>
-
+            </main>
+        </div>
+    </body>
 </html>

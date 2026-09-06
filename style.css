@@ -1,5 +1,5 @@
 /* strict drSongRanker mimicry. */
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;700&display=swap");
 
 :root {
     --bg-color: #000000;
@@ -7,7 +7,7 @@
     --accent-color: #00ff9d;
     --grid-line: #330033;
     --border-width: 3px;
-    --ui-font: 'Roboto Mono', monospace;
+    --ui-font: "Roboto Mono", monospace;
 }
 
 * {
@@ -224,7 +224,7 @@ textarea:focus {
 .faq-agree-container {
     border-top: 2px solid #333;
     padding-top: 20px;
-     margin-top: 10px;
+    margin-top: 10px;
 }
 
 .faq-agree-label {
