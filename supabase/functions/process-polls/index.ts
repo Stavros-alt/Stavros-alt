@@ -1,8 +1,6 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from 'jsr:@supabase/supabase-js@2';
 
-// bot token comes from the function secret. never hardcode it here,
-// this repo is public.
 const DISCORD_BOT_TOKEN = Deno.env.get("DISCORD_BOT_TOKEN") ?? "";
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
