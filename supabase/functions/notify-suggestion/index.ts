@@ -113,7 +113,26 @@ class SimpleNaiveBayes {
 
   classify(text: string): "spam" | "suggestion" {
     // hard rules first. naive bayes is a fallback, not the first line.
-    const normalized = this.normalizeText(text);
+    // bracketed tags like [English] are metadata, not content. strip them
+    // before counting words, otherwise one junk token escapes the short
+    // rule ("No Messages." is 1 token = spam, but
+    // "No Messages. [English]" was 2 tokens = suggestion).
+    const contentText = text.replace(/\[[^\]]*\]/g, " ");
+    const normalized = this.normalizeText(contentText);
+    const stripped = normalized
+      .replace(/[^\w\s]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+
+    // empty / placeholder bodies are not feature requests
+    if (
+      stripped.length === 0 ||
+      /^(no\s+messages?|no\s+content|n\/a|none|nil|empty|blank|test|testing|hello|hi|hey|asdf+|qwerty|123+)[\s.!]*$/.test(
+        stripped,
+      )
+    ) {
+      return "spam";
+    }
 
     // spaced out spellings defeat plain substring checks, hence the regexes
     const hasNsfw =
@@ -138,9 +157,11 @@ class SimpleNaiveBayes {
     // the kiss cutscene should not get caught here.
     const hasKissRequest =
       /\b(add|make|create|implement|put|give)\b.{0,40}\b(kiss|make out)\b/i.test(
-        text,
+        contentText,
       ) ||
-      /\b(kiss|make out)\b.{0,40}\b(button|feature|mode|option)\b/i.test(text);
+      /\b(kiss|make out)\b.{0,40}\b(button|feature|mode|option)\b/i.test(
+        contentText,
+      );
     if (hasKissRequest) {
       return "spam";
     }
@@ -179,12 +200,12 @@ class SimpleNaiveBayes {
     }
 
     // bare url = not a suggestion
-    if (/^https?:\/\/[^\s]+$/.test(text.trim())) {
+    if (/^https?:\/\/[^\s]+$/.test(contentText.trim())) {
       return "spam";
     }
 
     // "hi" is not a feature request
-    const cleanWords = this.tokenize(text);
+    const cleanWords = this.tokenize(contentText);
     if (
       cleanWords.length < 2 &&
       !normalized.includes("fix") &&
@@ -240,15 +261,17 @@ class SimpleNaiveBayes {
     // nearly every token is unknown and the leftovers are polite words like
     // sorry, trained as spam by the wrong chat jokes.
     const requestsOtherGame =
-      /\bversion\s+(of\s+this|for)\b/i.test(text) ||
+      /\bversion\s+(of\s+this|for)\b/i.test(contentText) ||
       /\b(do|can|could|would|will|is\s+there)\b[^.?!]{0,60}\bversion\b/i.test(
-        text,
+        contentText,
       ) ||
       /\b(add|make|create|build)\b[^.?!]{0,50}\b(ranker|ranking|version)\b/i.test(
-        text,
+        contentText,
       ) ||
-      /\branker\s+for\b/i.test(text) ||
-      /\b(ost|soundtrack|songs?)\s+(ranker|ranking|version)\b/i.test(text);
+      /\branker\s+for\b/i.test(contentText) ||
+      /\b(ost|soundtrack|songs?)\s+(ranker|ranking|version)\b/i.test(
+        contentText,
+      );
     if (requestsOtherGame) {
       return "suggestion";
     }
